@@ -1,16 +1,19 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: achyu
-  Date: 3/22/2026
-  Time: 11:02 AM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+<%@ page import="learninglog.user.model.User" %>
+<%
+    learninglog.user.model.User u = (learninglog.user.model.User) session.getAttribute("user");
 
-</body>
-</html>
+    if (u == null) {
+        response.sendRedirect("../views/login.jsp");
+    }
+%>
+
+<h1>Welcome User: <%= u.getName() %></h1><br>
+<form action="../user-auth" method="post">
+    <input type="hidden" name="action" value="logout"/>
+    <button>Logout</button>
+</form>
+
+<form action="../addTopic" method="post">
+    <input type="text" name="name" placeholder="New Topic" required/>
+    <button>Add</button>
+</form>
