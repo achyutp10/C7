@@ -1,10 +1,13 @@
 package learninglog.topic.model.dao;
 
 import learninglog.topic.model.Topic;
+import learninglog.topic.model.dto.TopicDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.Collection;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
 
 public class TopicDAO implements TopicInterface{
     @Override
@@ -28,4 +31,34 @@ public class TopicDAO implements TopicInterface{
             return false;
         }
     }
+
+    @Override
+    public ArrayList<TopicDTO> viewAllTopics() {
+        ArrayList<TopicDTO> topics = new ArrayList<>();
+        String sql = "SELECT t.id, t.name, t.created_at, t.user_id, u.name as user_name, u.email,u.role FROM topic t JOIN user u on t.user_id = u.id";
+
+        try (Connection conn = learninglog.c5.utils.DBConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                TopicDTO topic = new TopicDTO(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getTimestamp("created_at").toLocalDateTime(),
+                        rs.getInt("user_id"),
+                        rs.getString("user_name"),
+                        rs.getString("user_email"),
+                        rs.getString("user_role")
+                );
+                topics.add(topic);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return topics;
+    }
+
+
 }

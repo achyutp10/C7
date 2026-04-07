@@ -27,3 +27,6 @@
     <input type="text" name="name" placeholder="New Topic" required/>
     <button>Add</button>
 </form>
+
+<a href="../viewTopics">View topics</a>
+
