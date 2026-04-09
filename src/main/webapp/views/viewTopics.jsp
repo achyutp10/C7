@@ -1,6 +1,21 @@
+<%@ page import="learninglog.user.model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%
+    User u = (User) session.getAttribute("user");
 
+    if (u == null) {
+        response.sendRedirect("../views/login.jsp");
+    }
+%>
+
+<% if(session.getAttribute("success") != null) { %>
+<p style="color:green;"><%= session.getAttribute("success") %></p>
+<% } %>
+
+<% if(session.getAttribute("error") != null) { %>
+<p style="color:red;"><%= session.getAttribute("error") %></p>
+<% } %>
 <h2>All Topics</h2>
 
 <table border="1">
@@ -25,6 +40,23 @@
                 <td>${t.user_name}</td>
                 <td>${t.user_email}</td>
                 <td>${t.user_role}</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${sessionScope.user.id == t.user_id}">
+
+                            <form action="${pageContext.request.contextPath}/views/updateTopic.jsp" method="get" style="display:inline;">
+                                <input type="hidden" name="id" value="${t.topic_id}"/>
+                                <input type="hidden" name="name" value="${t.topic_name}"/>
+                                <button type="submit">Update</button>
+                            </form>
+
+                        </c:when>
+
+                        <c:otherwise>
+                            Not Allowed
+                        </c:otherwise>
+                    </c:choose>
+                </td>
             </tr>
         </c:forEach>
     </c:if>

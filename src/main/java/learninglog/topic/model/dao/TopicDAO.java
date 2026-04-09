@@ -2,6 +2,7 @@ package learninglog.topic.model.dao;
 
 import learninglog.topic.model.Topic;
 import learninglog.topic.model.dto.TopicDTO;
+import learninglog.utils.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +19,7 @@ public class TopicDAO implements TopicInterface{
 
         String sql ="INSERT INTO topic(name,user_id,created_at,updated_at) values(?,?,NOW(),NOW())";
 
-        try (Connection conn = learninglog.c5.utils.DBConnection.getConnection();
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, topic.getName());
@@ -37,8 +38,8 @@ public class TopicDAO implements TopicInterface{
         ArrayList<TopicDTO> topics = new ArrayList<>();
         String sql = "SELECT t.id, t.name, t.created_at, t.user_id, u.name as user_name, u.email,u.role FROM topic t JOIN user u on t.user_id = u.id";
 
-        try (Connection conn = learninglog.c5.utils.DBConnection.getConnection();
-        PreparedStatement ps = conn.prepareStatement(sql);
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
@@ -60,5 +61,23 @@ public class TopicDAO implements TopicInterface{
         return topics;
     }
 
+    @Override
+    public boolean updateTopic(int topicId, String topicName, int userId) {
+        String sql = "UPDATE topic SET name=?, updated_at=NOW() where id=?, user_id=?";
 
+        try (Connection conn = DBConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, topicName);
+            ps.setInt(2, topicId);
+            ps.setInt(3, userId);
+
+            int row = ps.executeUpdate();
+            return row>0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

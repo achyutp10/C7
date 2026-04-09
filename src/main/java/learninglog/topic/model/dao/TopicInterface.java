@@ -8,4 +8,6 @@ import java.util.ArrayList;
 public interface TopicInterface {
     boolean insertTopic(Topic topic);
     ArrayList<TopicDTO> viewAllTopics();
+    boolean updateTopic(int topicId, String topicName, int userId);
+
 }
