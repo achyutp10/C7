@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class UserDAO implements UserInterface{
+public class UserDAO implements UserInterface {
     @Override
     public boolean registerUser(User user) {
         if (user.getEmail().trim().isEmpty() || user.getPassword().trim().isEmpty()) {
@@ -15,7 +15,7 @@ public class UserDAO implements UserInterface{
         }
         String sql = "INSERT into user(name, email, password, role) values(?,?,?,?)";
         try (Connection conn = learninglog.c5.utils.DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPassword());
@@ -35,8 +35,8 @@ public class UserDAO implements UserInterface{
         String sql = "SELECT * from user where email=?";
 
         try (Connection conn = learninglog.c5.utils.DBConnection.getConnection();
-        PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1,email);
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -47,8 +47,7 @@ public class UserDAO implements UserInterface{
                             rs.getString("name"),
                             rs.getString("email"),
                             hashedPassword,
-                            rs.getString("role")
-                    );
+                            rs.getString("role"));
                 }
             }
 
