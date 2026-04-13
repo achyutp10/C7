@@ -2,10 +2,7 @@ package learninglog.user.controller;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 import learninglog.user.model.User;
 import learninglog.user.model.dao.UserDAO;
 import org.mindrot.jbcrypt.BCrypt;
@@ -46,6 +43,12 @@ public class UserController extends HttpServlet {
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
+
+                Cookie emailCookie = new Cookie("userEmail", user.getEmail());
+                emailCookie.setMaxAge(60*60*24);
+                emailCookie.setHttpOnly(true);
+                response.addCookie(emailCookie);
+
                 if (user.getRole().equals("ADMIN")) {
                     response.sendRedirect("views/admin.jsp");
                 } else {
@@ -55,6 +58,10 @@ public class UserController extends HttpServlet {
         } else if (action.equals("logout")) {
             HttpSession session = request.getSession();
             session.invalidate();
+
+            Cookie emailCookie = new Cookie("userEmail", "");
+            emailCookie.setMaxAge(0);
+
             response.sendRedirect("views/login.jsp");
 
         }

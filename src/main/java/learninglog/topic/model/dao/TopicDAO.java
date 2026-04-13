@@ -80,4 +80,22 @@ public class TopicDAO implements TopicInterface{
         }
         return false;
     }
+
+    @Override
+    public boolean deleteTopic(int topicId, int userId) {
+        String sql = "DELETE FROM topic where id=? AND user_id=?";
+
+        try (Connection conn = DBConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, topicId);
+            ps.setInt(2, userId);
+
+            int row = ps.executeUpdate();
+            return row>0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

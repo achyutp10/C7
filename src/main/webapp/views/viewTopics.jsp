@@ -57,6 +57,25 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${sessionScope.user.id == t.user_id}">
+
+                            <form action="${pageContext.request.contextPath}/deleteTopic" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="${t.topic_id}" />
+                                <button type="submit" onclick="return confirm('Delete this topic?')">
+                                    Delete
+                                </button>
+                            </form>
+
+                        </c:when>
+
+                        <c:otherwise>
+                            Not Allowed
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+
             </tr>
         </c:forEach>
     </c:if>
