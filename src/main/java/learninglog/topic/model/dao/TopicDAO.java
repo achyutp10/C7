@@ -98,4 +98,31 @@ public class TopicDAO implements TopicInterface{
         }
         return false;
     }
+
+    @Override
+    public TopicDTO viewTopicById(int topic_id) {
+        String sql = "SELECT t.id, t.name, t.created_at, t.user_id, u.name as user_name, u.email, u.role FROM topic t JOIN user u ON t.user_id = u.id where t.id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, topic_id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                TopicDTO topic = new TopicDTO(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getTimestamp("created_at").toLocalDateTime(),
+                        rs.getInt("user_id"),
+                        rs.getString("user_name"),
+                        rs.getString("email"),
+                        rs.getString("role")
+                );
+                return topic;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
