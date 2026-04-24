@@ -38,10 +38,11 @@
 <% } %>
 
 
-<form action="../addTopic" method="post">
+<form action="../addTopic" method="post" enctype="multipart/form-data">
     <input type="text" name="name" placeholder="New Topic" required/>
+    <input type="file" name="topic_image" required>
     <button>Add</button>
-</form>
+</form><br>
 
 <a href="../viewTopics">View topics</a>
 

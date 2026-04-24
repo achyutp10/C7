@@ -1,6 +1,7 @@
 package learninglog.user.model.dao;
 
 import learninglog.user.model.User;
+import learninglog.utils.DBConnection;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Connection;
@@ -14,8 +15,8 @@ public class UserDAO implements UserInterface {
             return false;
         }
         String sql = "INSERT into user(name, email, password, role) values(?,?,?,?)";
-        try (Connection conn = learninglog.c5.utils.DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPassword());
@@ -34,7 +35,7 @@ public class UserDAO implements UserInterface {
     public User loginUser(String email, String password) {
         String sql = "SELECT * from user where email=?";
 
-        try (Connection conn = learninglog.c5.utils.DBConnection.getConnection();
+        try (Connection conn = DBConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();

@@ -10,6 +10,11 @@ public class TopicDTO {
     private String user_name;
     private String user_email;
     private String user_role;
+    private String topic_image;
+
+    public String getTopic_image() {
+        return topic_image;
+    }
 
     public int getTopic_id() {
         return topic_id;
@@ -47,5 +52,16 @@ public class TopicDTO {
         this.user_name = user_name;
         this.user_email = user_email;
         this.user_role = user_role;
+    }
+
+    public TopicDTO(int topic_id, String topic_name, LocalDateTime created_at, int user_id, String user_name, String user_email, String user_role, String topic_image) {
+        this.topic_id = topic_id;
+        this.topic_name = topic_name;
+        this.created_at = created_at;
+        this.user_id = user_id;
+        this.user_name = user_name;
+        this.user_email = user_email;
+        this.user_role = user_role;
+        this.topic_image = topic_image;
     }
 }

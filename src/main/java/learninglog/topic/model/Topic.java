@@ -8,6 +8,15 @@ public class Topic {
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
     private int user_id;
+    private String topic_image;
+
+    public String getTopic_image() {
+        return topic_image;
+    }
+
+    public void setTopic_image(String topic_image) {
+        this.topic_image = topic_image;
+    }
 
     public int getId() {
         return id;
@@ -52,5 +61,11 @@ public class Topic {
     public Topic(String name, int user_id) {
         this.name = name;
         this.user_id = user_id;
+    }
+
+    public Topic(String name, int user_id, String topic_image) {
+        this.name = name;
+        this.user_id = user_id;
+        this.topic_image = topic_image;
     }
 }

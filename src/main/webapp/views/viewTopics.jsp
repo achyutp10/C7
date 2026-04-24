@@ -27,6 +27,7 @@
         <th>User Name</th>
         <th>Email</th>
         <th>Role</th>
+        <th>Image</th>
         <th>Action</th>
     </tr>
 
@@ -40,6 +41,9 @@
                 <td>${t.user_name}</td>
                 <td>${t.user_email}</td>
                 <td>${t.user_role}</td>
+                <td>
+                    <img src="${pageContext.request.contextPath}/uploads/${t.topic_image}" width="100" height="100">
+                </td>
                 <td>
                     <c:choose>
                         <c:when test="${sessionScope.user.id == t.user_id}">
